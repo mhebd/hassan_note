@@ -1,10 +1,10 @@
 import React from 'react';
 
-function ArticleCoverImg({ style, article }) {
+function ArticleCoverImg({ style, article, srcPref }) {
   return (
     <div className="article-cover-img">
       <img
-        src={article?.coverImage}
+        src={srcPref + article?.coverImage}
         className="img-fluid w-100 rounded "
         alt="post thumbnail"
         style={style}

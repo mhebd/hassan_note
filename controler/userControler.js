@@ -68,7 +68,7 @@ exports.createUser = asyncHdl(async (req, res, next) => {
 
 /**
 	=> @POST
-	=> /api/v1/user
+	=> /api/v1/user/login
 	=> Public
 */
 exports.loginUser = asyncHdl(async (req, res, next) => {

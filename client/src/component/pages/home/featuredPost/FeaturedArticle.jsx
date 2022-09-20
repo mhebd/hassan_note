@@ -32,7 +32,7 @@ function FeaturedArticle() {
           fArticles.map((article) => (
             <div className="row" key={Math.random()}>
               <div className="col-md-6 mb-3">
-                <ArticleCoverImg article={article} />
+                <ArticleCoverImg article={article} srcPref="" />
               </div>
               <FeaturedArticleDetails article={article} />
             </div>

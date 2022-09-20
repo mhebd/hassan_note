@@ -38,7 +38,7 @@ function Article({ match }) {
           <ArticleMetaData article={articleData} />
 
           <div className="mb-5 article-cover">
-            <ArticleCoverImg article={articleData} style={{ maxHeight: '500px' }} />
+            <ArticleCoverImg article={articleData} srcPref="../" style={{ maxHeight: '500px' }} />
           </div>
 
           <ArticleDetails article={articleData} />

@@ -1,7 +1,6 @@
 const asyncHdl = require('../util/asyncHdl');
 const eMsg = require('../util/eMsg');
 const Article = require('../model/Article');
-const imgur = require('imgur');
 const path = require('path');
 const fs = require('fs');
 const sharp = require('sharp');
@@ -14,6 +13,8 @@ const sharp = require('sharp');
 exports.createArticle = asyncHdl(async (req, res, next) => {
 	const { title, excerpt, content, category, tags } = req.body;
 	const { id } = req.user;
+
+	console.log(req.body)
 
 	if(!title || !content || !category) {
 		return next(new eMsg('Article title, cover image, category and content is mandetory.', 400));
@@ -40,14 +41,11 @@ exports.createArticle = asyncHdl(async (req, res, next) => {
     );
     fs.unlinkSync(req.file.path);
 
-	const url = await imgur.uploadFile(req.file.destination+'/resized/'+image);
+	const coverImage = 'upload/resized/'+image;
 
-	if(!url) {
+	if(!coverImage) {
 		return next(new eMsg('Image uploading problem', 404));
 	};
-
-	// Remove uplading image from server
-	fs.unlinkSync(req.file.destination+'/resized/'+image);
 	
 	const article = await Article.create({
 		title,
@@ -55,7 +53,7 @@ exports.createArticle = asyncHdl(async (req, res, next) => {
 		tags: tagsArr,
 		content,
 		slug,
-		coverImage: url.link,
+		coverImage,
 		category,
 		writer: id,
 	})
@@ -79,12 +77,12 @@ exports.createArticle = asyncHdl(async (req, res, next) => {
 exports.getArticle = asyncHdl(async (req, res, next) => {
 	const { slug } = req.params;
 
-	let article = await Article.findOne({ slug }).populate('writer').populate('category', ['name']);
+	const article = await Article.findOne({ slug }).populate('writer').populate('category', ['name']);
 
-	const id = article?._id;
-	const views = article?.views;
+	const id = article._id;
+	const views = article.views;
 
-	article = await Article.findByIdAndUpdate(id, {$set: {views: (views + 1) }}, {new: true});
+	await Article.findByIdAndUpdate(id, {$set: {views: (views + 1) }}, {new: true});
 
 	res.status(200).json({
 		success: true,
@@ -235,16 +233,13 @@ exports.updateArticle = asyncHdl(async (req, res, next) => {
 			);
     fs.unlinkSync(req.file.path);
 
-		const url = await imgur.uploadFile(req.file.destination+'/resized/'+image);
+		const coverImage = 'upload/resized/'+image;
 
-		if(!url) {
+		if(!coverImage) {
 			return next(new eMsg('Image uploading problem', 404));
 		};
 
-		// Remove uplading image from server
-		fs.unlinkSync(req.file.destination+'/resized/'+image);
-
-		updatedField.coverImage = url.link;
+		updatedField.coverImage = coverImage;
 	}
 
 	const article = await Article.findByIdAndUpdate(id, { $set: updatedField }, {new: true})

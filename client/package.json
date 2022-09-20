@@ -22,8 +22,8 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts --openssl-legacy-provider start",
+    "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "yarn add -D prettier@2.4.1 && yarn add -D babel-eslint@10.1.0 && yarn add -D eslint-config-airbnb@18.2.1 && yarn add -D eslint-plugin-import@2.22.1 && yarn add -D eslint-plugin-jsx-a11y@6.4.1 && yarn add -D eslint-plugin-react@7.21.5 && yarn add -D eslint-plugin-react-hooks@1.7.0 && yarn add -D eslint-config-prettier@8.3.0 && yarn add -D eslint-plugin-prettier@3.4.1"
