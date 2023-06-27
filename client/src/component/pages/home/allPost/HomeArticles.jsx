@@ -9,9 +9,10 @@ function HomeArticles() {
   const [articleList, setArticleList] = useState([]);
   const [artQ, setArtQ] = useState(12);
 
-  const { articles, getArticles, isLoading } = useArticle();
+  const { articles, getArticles, isLoading, setLoader } = useArticle();
 
   useEffect(() => {
+    setLoader(true);
     getArticles(artQ);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [artQ]);

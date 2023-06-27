@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { useArticle } from '../../../../context/article/ArticleProvider';
 import ArticleCoverImg from '../../../reusable/ArticleCoverImg';
@@ -6,40 +7,46 @@ import SectionHeading from '../../../reusable/SectionHeading';
 import FeaturedArticleDetails from './FeaturedArticleDetails';
 
 function FeaturedArticle() {
-  const [fArticles, setFArticles] = useState(null);
+	const [fArticles, setFArticles] = useState(null);
 
-  const { featuredArticles, getFeaturedArticles, isLoading } = useArticle();
+	const { featuredArticles, getFeaturedArticles, isLoading, setLoader } =
+		useArticle();
 
-  useEffect(() => {
-    getFeaturedArticles();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+	useEffect(() => {
+		setLoader(true);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-  useEffect(() => {
-    if (featuredArticles) setFArticles(featuredArticles);
-  }, [featuredArticles]);
+	useEffect(() => {
+		getFeaturedArticles();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
-  return (
-    <div className="featured-post-wrap mb-5">
-      <div className="container">
-        <SectionHeading heading="জনপ্রিয় আর্টিকেল" />
+	useEffect(() => {
+		if (featuredArticles) setFArticles(featuredArticles);
+	}, [featuredArticles]);
 
-        {isLoading && <Loader />}
+	return (
+		<div className='featured-post-wrap mb-5'>
+			<div className='container'>
+				<SectionHeading heading='জনপ্রিয় আর্টিকেল' />
 
-        {!isLoading &&
-          fArticles &&
-          fArticles.length > 0 &&
-          fArticles.map((article) => (
-            <div className="row" key={Math.random()}>
-              <div className="col-md-6 mb-3">
-                <ArticleCoverImg article={article} srcPref="" />
-              </div>
-              <FeaturedArticleDetails article={article} />
-            </div>
-          ))}
-      </div>
-    </div>
-  );
+				{isLoading && <Loader />}
+
+				{!isLoading &&
+					fArticles &&
+					fArticles.length > 0 &&
+					fArticles.map((article) => (
+						<div className='row' key={Math.random()}>
+							<div className='col-md-6 mb-3'>
+								<ArticleCoverImg article={article} srcPref='' />
+							</div>
+							<FeaturedArticleDetails article={article} />
+						</div>
+					))}
+			</div>
+		</div>
+	);
 }
 
 export default FeaturedArticle;
